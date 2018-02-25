@@ -1,1 +1,3 @@
-chrome 62
+> 1%
+last 2 versions
+# Run npx browserslist in project directory to see what browsers was selected by your queries.

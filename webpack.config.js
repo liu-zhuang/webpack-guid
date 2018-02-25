@@ -5,7 +5,7 @@ const cleanWebpackPlugin = require('clean-webpack-plugin');
 
 const config = {
 	entry: {
-		app: ['babel-polyfill', './src/app.js']
+		app: ['./src/app.js']
 	}, 
 
 	output: {
