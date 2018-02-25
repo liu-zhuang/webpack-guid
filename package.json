@@ -1,0 +1,16 @@
+{
+  "name": "webpack-guid",
+  "version": "1.0.0",
+  "description": "webpack guid",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack"
+  },
+  "author": "liu zhuang",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.0.0",
+    "webpack-cli": "^2.0.8"
+  }
+}
