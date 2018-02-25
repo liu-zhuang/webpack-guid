@@ -5,7 +5,7 @@ const cleanWebpackPlugin = require('clean-webpack-plugin');
 
 const config = {
 	entry: {
-		app: './src/app.js'
+		app: ['babel-polyfill', './src/app.js']
 	}, 
 
 	output: {
@@ -13,10 +13,22 @@ const config = {
 		path: path.resolve(__dirname, 'dist')
 	},
 
+	module: {
+		rules: [
+		{
+			test: /\.js$/,
+			use: {
+				loader: 'babel-loader',
+			},
+			exclude: '/node_modules/'
+		}
+		]
+	},
+
 	plugins: [
 		// 参数是个数组，传入目录名称
 		new cleanWebpackPlugin(['dist'])
-	]
-}
+		]
+	}
 
-module.exports = config;
+	module.exports = config;
