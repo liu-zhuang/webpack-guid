@@ -1,5 +1,7 @@
 module.exports = {
-	entry: './src/app.js',
+	entry: {
+		app: './src/app.js'
+	},
 
 	output: {
 		filename: '[name].[hash:8].js'
