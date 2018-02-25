@@ -45,6 +45,17 @@ module: {
 ```
 npm install --save-dev babel-plugin-transform-runtime
 ```
+修改`.babelrc`文件，在下面增加`plugins`属性:
+```
+{
+	"presets": [["env", {
+		"targets": {
+			"chrome": "62"
+		}
+	}]],
+	"plugins": ["transform-runtime"]
+}
+```
 
 
 # Tips
