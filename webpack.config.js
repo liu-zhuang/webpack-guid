@@ -4,6 +4,9 @@ const path = require('path');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
 
 const config = {
+	mode: 'development',
+	// mode: 'production',
+
 	entry: {
 		app: ['./src/app.js']
 	}, 
