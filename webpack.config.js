@@ -8,6 +8,10 @@ const config = {
 		app: './src/app.js'
 	}, 
 
+	// mode: 'development',
+	
+	mode: 'production', 
+
 	output: {
 		filename: '[name].[hash:8].js',
 		path: path.resolve(__dirname, 'dist')
