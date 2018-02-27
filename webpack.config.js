@@ -24,10 +24,7 @@ const config = {
 			{
 				test: /\.js$/,
 				use: {
-					loader: 'babel-loader',
-					options: {
-						plugins: ['syntax-dynamic-import']
-					}
+					loader: 'babel-loader'
 				},
 				exclude: '/node_modules/'
 			}
