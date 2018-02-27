@@ -1,15 +1,20 @@
-// import 'babel-polyfill';
-const a = 'hello webpack!';
+// import componentA from './component/componentA.js';
+// import componentB from './component/componentB.js';
+// componentA();
+// componentB();
+require.include('./util/common.js');
+require.ensure(['./component/componentA'], function (require) {
+	let componentA = require('./component/componentA');
+	componentA();
+}, 'componentA');
 
-function test () {
-	let a = 123;
-	return new Promise((resolve, reject) => {
-		resolve();
-	});
-}
+import(/* webpackChunkName:'lodash' */ 'lodash').then((_) => {
+	console.log(_.default.join(['hello', 'world'], ' '));
+});
 
-let func = () => {
-	const arr = [1, 2, 3, 4, 5];
-	console.log(arr.includes(1));
-	console.log('arrow function');
-}
+import(/* webpackChunkName:'componentB' */ './component/componentB')
+.then((cb) => {
+	cb.componentB();
+})
+
+console.log('code split');
