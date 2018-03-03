@@ -59,6 +59,21 @@ const config = {
 				}
 			}]
 		})
+		},
+		{
+			test: /\.less$/,
+			use: extractTextPlugin.extract({
+				fallback: {
+					loader: 'style-loader'
+				},
+				use: [
+				{
+					loader: 'css-loader'
+				},
+				{
+					loader: 'less-loader'
+				}]
+			})
 		}]
 	},
 
