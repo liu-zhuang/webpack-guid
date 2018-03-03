@@ -101,9 +101,13 @@ webpack.config.js文件
 
 ## postcss
 安装相应module
-``` 
+```
 npm install --save-dev postcss postcss-loader autoprefixer cssnano postcss-cssnext
 ```
+
+## Less
+
+Less的用法很简单，在css之前使用`less-loader`即可，但是要先安装`less`和`less-loader`;
 
 ## 参考文档
 [style-loader](https://doc.webpack-china.org/loaders/style-loader)
