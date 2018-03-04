@@ -15,11 +15,19 @@ const config = {
 		filename: '[name].min.js',
 		chunkFilename: '[name].bundle.js',
 		path: path.resolve(__dirname, 'dist'),
-		publicPath: 'dist/'
+		publicPath: ''
 	},
 
 	module: {
 		rules: [
+		{
+			test: /\.js$/,
+			use: [
+				{
+					loader: 'babel-loader'
+				}
+			]
+		},
 		{
 			test: /\.less$/,
 			use: ExtractTextWebpackPlugin.extract({
@@ -29,6 +37,16 @@ const config = {
 				use: [
 				{
 					loader: 'css-loader'
+				},
+				{
+					loader: 'postcss-loader',
+					options: {
+						ident: 'postcss',
+						plugins: [
+							require('postcss-cssnext')(),
+							require('postcss-sprites')()
+						]
+					}
 				},
 				{
 					loader: 'less-loader'
@@ -45,10 +63,18 @@ const config = {
 			{
 				loader: 'url-loader',
 				options: {
-					limit: 100000,
+					limit: 1000,
 					useRelativePath: true,
 					name: '[name].[hash:5].[ext]'
 				}
+			},
+			{
+				loader: 'img-loader',
+				// options: {
+				// 	jpgquant: {
+				// 		quality: 40
+				// 	}
+				// }
 			}
 			]
 		}
