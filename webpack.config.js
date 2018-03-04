@@ -1,12 +1,11 @@
 const path = require('path');
-const glob = require('glob-all');
 
-const webpack = require('webpack');
-const cleanWebpackPlugin = require('clean-webpack-plugin');
-const extractTextWebpackPlugin = require('extract-text-webpack-plugin');
-const purifyCssWebpackPlugin = require('purifycss-webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 
 const config = {
+	// mode: 'development',
+	mode: 'production',
 
 	entry: {
 		app: './src/app.js'
@@ -14,45 +13,54 @@ const config = {
 
 	output: {
 		filename: '[name].min.js',
-		chunkFilename: '[name].bundel.js',
-		path: path.resolve(__dirname, 'dist')
+		chunkFilename: '[name].bundle.js',
+		path: path.resolve(__dirname, 'dist'),
+		publicPath: 'dist/'
 	},
 
 	module: {
 		rules: [
 		{
-			test: /\.js$/,
-			use: ['babel-loader']
-		},
-		{
-			test: /\.css$/,
-			use: extractTextWebpackPlugin.extract({
+			test: /\.less$/,
+			use: ExtractTextWebpackPlugin.extract({
 				fallback: {
 					loader: 'style-loader'
 				},
-				use: [{
+				use: [
+				{
 					loader: 'css-loader'
-				}]
+				},
+				{
+					loader: 'less-loader'
+				}
+				]
 			})
+		},
+		{
+			test: /\.(jpg|jpeg|png|gif)$/,
+			use: [
+			// {
+			// 	loader: 'file-loader'
+			// }
+			{
+				loader: 'url-loader',
+				options: {
+					limit: 100000,
+					useRelativePath: true,
+					name: '[name].[hash:5].[ext]'
+				}
+			}
+			]
 		}
 		]
 	},
 
 	plugins: [
-	new cleanWebpackPlugin('dist/'),
+	new CleanWebpackPlugin('dist/'),
 
-	new extractTextWebpackPlugin('main.min.css'),
-
-	new webpack.optimize.UglifyJsPlugin(),
-
-	new purifyCssWebpackPlugin({
-		paths: glob.sync([
-				path.join(__dirname, './index.html'),
-				path.join(__dirname, './src/*.css')
-			])
-	})
+	new ExtractTextWebpackPlugin('main.min.css')
 	]
-}
-
+};
 
 module.exports = config;
+
