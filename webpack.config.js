@@ -48,7 +48,7 @@ const config = {
 	new purifyCssWebpackPlugin({
 		paths: glob.sync([
 				path.join(__dirname, './index.html'),
-				path.join(__dirname, './dist/*.css')
+				path.join(__dirname, './src/*.css')
 			])
 	})
 	]

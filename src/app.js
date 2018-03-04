@@ -2,7 +2,8 @@
 let temp = 'hello world';
 import {testa} from './common/common.js';
 
-import * as main from './style/main.css';
+import   './style/main.css';
+import  '../node_modules/bootstrap/dist/css/bootstrap.css';
 
 class Person {
 	constructor (name, age, sex) {
