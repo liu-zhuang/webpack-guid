@@ -1,7 +1,3 @@
 {
-	"presets": [["es2015", {
-		"targets": {
-			"browsers": ["> 1%", "last 2 versions"]
-		}
-	}]]
+	"presets": [["es2015", {"modules":false}]]
 }

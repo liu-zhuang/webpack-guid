@@ -1,10 +1,13 @@
-import  './style/common.css';
-import './style/main.css';
-import './style/less/variable.less'
-import './style/less/common.less'
 
-// main.unuse();
-// common.use();
-// main.use();
+let temp = 'hello world';
+import {testa} from './common/common.js';
 
-console.log('hello world!');
+class Person {
+	constructor (name, age, sex) {
+		this.name = name;
+		this.age = age;
+		this.sex = sex;
+	}
+}
+
+console.log(testa());
