@@ -16,7 +16,7 @@
 
 [官方文档](https://github.com/webpack-contrib/purifycss-webpack)
 
-用法很简单，只需要传一个参赛`paths`，告诉插件，要检查哪些文件即可。
+用法很简单，只需要传一个参数`paths`，告诉插件，要检查哪些文件即可。
 
 示例中在`main.css`中定义了`box`和`big-box`两个样式，但是在`index.html`中只使用了一个，这样打包出来的文件，就不会有没有用到的`big-box`了
 
