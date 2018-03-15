@@ -1,67 +1,69 @@
-# File Compress
-- 图片，base64
-- sprite pic
-- font file
-- third part js lib
+# HTML In Webpack
 
-## 图片
-- 使用`file-loader`处理图片
-- 使用`url-loader`
-有以下参数：
-```
-{
-	loader: 'url-loader',
-	options: {
-		limit: 1000, // 小于什么尺寸被压缩为base64
-		useRelativePath: true, // 输出时使用相对路径
-		name: '[name].[hash:5].[ext]' // chunkname
+## html-webpack-plugin
+[link](https://www.npmjs.com/package/html-webpack-plugin)
+
+使用webpack打包资源文件后，由于会使用`hashname`或者`chunkhashname`,因此在html页面引用就很不方便，因此需要使用`html-webpack-plugin`来动态的引用
+
+
+用法其实很简单，引入这个插件，并在`plugins`中实例化即可，常用的参数如下（或者查阅官方文档）:
+
+- title: 生成的html的title, 使用方式上在模版中加入：`<title><%= htmlWebpackPlugin.options.title%></title>`,但是如果指定了模版文件，就会不work,只有当不指定`template`时才生效，不知道是不是`webpack 4.x`的bug
+
+- filename: 生成的html的名字
+
+- template: 使用的模版
+
+- inject: 是否将打包生成的资源文件注入模版中
+
+- minify: 是否压缩,使用的其实是[html-minifier](https://github.com/kangax/html-minifier#options-quick-reference)，所以参数也应该用这个
+
+- hash: 生成的html是否带hash
+
+- chunks: 嵌入的chunks
+
+- excludeChunks: 排除哪些chunk
+
+
+## html-loader
+如果模版使用的是html文件，同时模版中引用了一些图片，这时就需要用到`html-loader`[link](https://www.npmjs.com/package/html-loader)
+
+但是如果是图片的话，单单使用`html-loader`是不够的，还需要再使用`file-loader`或者`url-loader`来处理图片
+
+为图片指定打包存放路径可以使用`options`中的`outputpath`：
+``` javascript
+module: {
+	rules: [
+	{
+		test: /\.js$/,
+		use: {
+			loader: 'babel-loader'
+		}
+	},
+	{
+		test: /\.(png|jpeg)$/,
+		use: {
+			loader: 'file-loader',
+			options: {
+				outputPath: '/assets/imgs/'
+			}
+		}
+	},
+	{
+		test: /\.html$/,
+		use: {
+			loader: 'html-loader'
+		}
 	}
-}
-```
-
-还可以在`url-loader`之前使用`img-loader`来压缩
-
-
-## 字体
-字体文件的用法和图片的用法一摸一样
-
-
-## 第三方JS库
-- 直接在html中引入。
-这个在尝试失败了
-
-- 使用`Webpack.ProvidePlugin`插件
-```
-new Webpack.ProvidePlugin({
-		_: 'lodash'
-	})
-```
-上面的方法是针对`node_modules`引入
-
-
-如果第三方`javascript lib`是在本地引入的，则需要使用`resolve alias`实现:
-```
-resolve: {
-	alias: {
-		util: path.resolve(__dirname, 'lib/util.js')
-	}
+	]
 }
 
 ```
-先声明一个别名。然后就可以在`providePlugin`中使用了
-```
-new Webpack.ProvidePlugin({
-	_: 'lodash',
-	u: 'util'
-})
-```
 
 
-## 说明
-- 当`extract-text-webpack-plugin`用在`webpack 4.x`上的时候，当前的最新版本会有问题，需要安装`@next`的版本
-[issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/701)
+## html-webpack-inline-chunk-plugin
+有一些公共的模块其实可以抽取出来，直接在页面上以inline的形式加载，这样就可以减少一次网络请求，这时就可以使用`html-webpack-inline-chunk-plugin`插件，[link](https://www.npmjs.com/package/html-webpack-inline-chunk-plugin)
 
-- 当打包时提示该错误时，`Module build failed: Error: "extract-text-webpack-plugin" loader is used without the corresponding plugin, refer to https://github.com/webpack/extract-text-webpack-plugin for the usage example`，有可能是在`plugins`中没有实例化该插件。
-
+但是这个插件已经有1年没更新了，因此在目前`webpack 4.x`的环境下报错了
 
 

@@ -1,126 +1,68 @@
 const path = require('path');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
-const Webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackInlineChunkPlugin = require('html-webpack-inline-chunk-plugin');
 
 const config = {
 	mode: 'development',
-	// mode: 'production',
 
 	entry: {
-		app: './src/app.js'
+		app: './src/app.js',
+		common: './src/common.js'
 	},
 
 	output: {
-		filename: '[name].min.js',
-		chunkFilename: '[name].bundle.js',
-		path: path.resolve(__dirname, 'dist'),
-		publicPath: ''
-	},
-
-	resolve: {
-		alias: {
-			util: path.resolve(__dirname, 'lib/util.js')
-		}
+		filename: '[name].[chunkhash:8].js',
+		path: path.resolve(__dirname, 'dist')
 	},
 
 	module: {
 		rules: [
 		{
 			test: /\.js$/,
-			use: [
-			{
+			use: {
 				loader: 'babel-loader'
 			}
-			]
 		},
 		{
-			test: /\.less$/,
-			use: ExtractTextWebpackPlugin.extract({
-				fallback: {
-					loader: 'style-loader'
-				},
-				use: [
-				{
-					loader: 'css-loader'
-				},
-				{
-					loader: 'postcss-loader',
-					options: {
-						ident: 'postcss',
-						plugins: [
-						require('postcss-cssnext')(),
-							// require('postcss-sprites')()
-							]
-						}
-					},
-					{
-						loader: 'less-loader'
-					}
-					]
-				})
-		},
-		{
-			test: /\.(jpg|jpeg|png|gif)$/,
-			use: [
-			// {
-			// 	loader: 'file-loader'
-			// }
-			{
-				loader: 'url-loader',
+			test: /\.(png|jpeg)$/,
+			use: {
+				loader: 'file-loader',
 				options: {
-					limit: 1000,
-					useRelativePath: true,
-					name: '[name].[hash:5].[ext]'
+					outputPath: '/assets/imgs/'
 				}
-			},
-			{
-				loader: 'img-loader',
-				// options: {
-				// 	jpgquant: {
-				// 		quality: 40
-				// 	}
-				// }
 			}
-			]
 		},
 		{
-			test: /\.(eot|svg|ttf|woff2?|otf)$/,
-			use: [{
-				loader: 'url-loader',
-				options: {
-					limit: 100,
-					name: '[name].[hash:5].[ext]',
-					useRelativePath: true
-				}
-			}]
-		},
-		// {
-		// 	test: path.resolve(__dirname, 'lib/util.js'),
-		// 	use: [
-		// 	{
-		// 		loader: 'imports-loader',
-		// 		options: {
-		// 			u: 'util'
-		// 		}
-		// 	}
-		// 	]
-		// }
+			test: /\.html$/,
+			use: {
+				loader: 'html-loader'
+			}
+		}
 		]
 	},
 
 	plugins: [
-	new CleanWebpackPlugin('dist/'),
+	new CleanWebpackPlugin('./dist/'),
 
-	new ExtractTextWebpackPlugin('main.min.css'),
+	new HtmlWebpackPlugin({
+		title: 'Hello HtmlWebpackPlugin',
+		filename: 'app.html',
+		template: './index.html',
+		inject: true,
+		// minify: {
+		// 	collapseWhitespace: true
+		// },
+		minify: false,
+		hash: false,
+		// chunks: ['app', 'common']
+	}),
 
-	new Webpack.ProvidePlugin({
-		_: 'lodash',
-		u: 'util'
-	})
+	// new HtmlWebpackInlineChunkPlugin({
+	// 	inlineChunks: ['common']
+	// })
 	]
 };
 
 module.exports = config;
-
